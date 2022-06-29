@@ -1,0 +1,34 @@
+body {
+    background: green;
+}
+h3{
+    margin: auto 0;
+}
+.carta{
+    padding: 5px;
+    margin: 20px auto;
+    height: 150px;
+    width: 100px;
+    background: white;
+    border-radius: 20px;
+}
+
+.carta div{
+    box-sizing: border-box;
+    font-family: 'Ubuntu', sans-serif;
+}
+
+#top, #bottom {
+    height: 30%;
+    font-size: 40px;
+}
+
+div[id^="center"] {
+    height: 40%;
+    text-align: center;
+    font-size: 40px;
+}
+
+#bottom{
+    transform: rotate(180deg);
+}

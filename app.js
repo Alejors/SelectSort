@@ -15,13 +15,18 @@ window.onload = function () {
       deckParaHtml.push(deck[i].join(''));
     }
     cuerpo.innerHTML = deckParaHtml.join('');
-    console.log(deck);
   });
 
   //BOTON QUE ORDENA CARTAS
   let sorter = document.getElementById("sort");
   sorter.addEventListener('click', (e) => {
-    bubbleSort(deck);
+    selecSort(deck);
+  });
+
+  //BOTON PARA RESETEAR TABLERO
+  const reload = document.getElementById('reset');
+  reload.addEventListener('click', (e) => {
+    location.reload();
   });
 };
 
@@ -67,8 +72,8 @@ function getsuit() {
   }
 }
 
-function getestilo(pinta){
-  
+function getestilo(pinta) {
+
   let char = '<span';
 
   if (pinta.includes('red')) {
@@ -88,77 +93,87 @@ function otracarta(num) {
     let pinta = getsuit();
     let estilo = getestilo(pinta)
     let valor = getnumber();
-    let carta = [`<div class="carta col-3"><div class="suit" id="top">${pinta}</div><div id="center">${estilo}`,`${valor}`,`</span></div><div class="suit" id="bottom">${pinta}</div></div>`];
+    let carta = [`<div class="carta col-3"><div class="suit" id="top">${pinta}</div><div id="center">${estilo}`, `${valor}`, `</span></div><div class="suit" id="bottom">${pinta}</div></div>`];
     deck.push(carta);
   }
 }
 
-function bubbleSort(arr) {
+function selecSort(arr) {
   let array = [...arr];
+
   if (array.length == 0) {
     window.alert("No cards to sort!");
   }
+
   else {
-    let wall = array.length - 1;
     let counter = 0;
+    for (let i = 0; i < array.length - 1; i++) {
 
-    while (wall > 0) {
-      for (let i = 0; i < wall; i++) {
-        
-        let auxi = 0;
-        let auxj = 0;
+      let auxi = 0;
 
-        if (array[i][1] === 'K') {
-          auxi = 13;
-        }
-        else if (array[i][1] === 'Q') {
-          auxi = 12;
-        }
-        else if (array[i][1] === 'J') {
-          auxi = 11;
-        }
-        else if (array[i][1] === 'A') {
-          auxi = 14;
-        }
-        else {
-          auxi = parseInt(array[i][1]);
-        }
+      if (array[i][1] === 'K') {
+        auxi = 13;
+      }
+      else if (array[i][1] === 'Q') {
+        auxi = 12;
+      }
+      else if (array[i][1] === 'J') {
+        auxi = 11;
+      }
+      else if (array[i][1] === 'A') {
+        auxi = 14;
+      }
+      else {
+        auxi = parseInt(array[i][1]);
+      }
 
-        if (array[i + 1][1] === 'K') {
+      let min = auxi;
+      let index = '';
+
+      for (let j = i + 1; j < array.length; j++) {
+
+        if (array[j][1] === 'K') {
           auxj = 13;
         }
-        else if (array[i + 1][1] === 'Q') {
+        else if (array[j][1] === 'Q') {
           auxj = 12;
         }
-        else if (array[i + 1][1] === 'J') {
+        else if (array[j][1] === 'J') {
           auxj = 11;
         }
-        else if (array[i + 1][1] === 'A') {
+        else if (array[j][1] === 'A') {
           auxj = 14;
         }
         else {
-          auxj = parseInt(array[i + 1][1]);
+          auxj = parseInt(array[j][1]);
         }
 
-        if (auxi > auxj) {
-          let aux = array[i];
-          array[i] = array[i + 1];
-          array[i + 1] = aux;
+        if (min > auxj) {
+          index = j;
+          min = auxj;
         }
-
-        let linea = document.createElement("div");
-        linea.classList.add("d-flex");
-               
-        let arrayParaHtml = [];
-        for (let i = 0; i < array.length; i++) {
-          arrayParaHtml.push(array[i].join(''));
-        }
-        arrayParaHtml.unshift(`<h3>${counter}</h3>`);
-        linea.innerHTML = arrayParaHtml.join('');
-        document.querySelector(".container-flex").appendChild(linea);
-        counter++;
       }
-      wall--;
+
+      if (index != '') {
+        let aux = array[i];
+        array[i] = array[index];
+        array[index] = aux;
+      }
+
+      let linea = document.createElement("div");
+      linea.classList.add("d-flex");
+
+      let arrayParaHtml = [];
+
+      for (let i = 0; i < array.length; i++) {
+        arrayParaHtml.push(array[i].join(''));
+      }
+
+      arrayParaHtml.unshift(`<h3>${counter}</h3>`);
+      linea.innerHTML = arrayParaHtml.join('');
+      document.querySelector(".container-flex").appendChild(linea);
+      counter++;
     }
+
   }
 }
